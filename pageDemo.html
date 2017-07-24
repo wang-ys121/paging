@@ -1,0 +1,149 @@
+
+<html>
+<head>
+  <!-- META DATA -->
+	<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Free Bootstrap Themes by 365Bootstrap dot com - Free Responsive Html5 Templates">
+
+	<title>草稿箱</title>
+  
+	<!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="person/css/bootstrap.min.css"  type="text/css">	
+
+	<!-- Custom CSS -->
+    <link rel="stylesheet" href="person/css/style.css">
+	
+	<!-- Custom Fonts -->
+    <link rel="stylesheet" href="person/font-awesome-4.4.0/csss/font-awesome.min.css"  type="text/css">
+	<link href='https://fonts.googleapis.com/css?family=Asap:400,700' rel='stylesheet' type='text/css'>	
+		
+</head>
+
+ <body>
+<header>
+  
+	
+</header>
+
+	
+				
+				<center>
+					<ul class="pagination" id="ul0">
+						
+						<li id="lif">
+						  <a href="javascript:void(0);" id="af" aria-label="Previous">
+							<span aria-hidden="true">首页</span>
+						  </a>
+						</li>
+						<li id="lip">
+						  <a href="javascript:void(0);" id="ap" aria-label="Previous">
+							<span aria-hidden="true">上一页</span>
+						  </a>
+						</li>
+						
+						<li id="li1"><a href="javascript:void(0);" id="a1" class="as">1</a></li>
+						<li id="li2"><a href="javascript:void(0);" id="a2" class="as">2</a></li>
+						<li id="li3"><a href="javascript:void(0);" id="a3" class="as">3</a></li>
+						<li id="li4"><a href="javascript:void(0);" id="a4" class="as">4</a></li>
+						<li id="li5"><a href="javascript:void(0);" id="a5" class="as">5</a></li>
+						<li id="li6"><a href="javascript:void(0);" id="a6" class="as">6</a></li>
+						
+						<li id="lin">
+						  <a href="javascript:void(0);" id="an" aria-label="Next">
+							<span aria-hidden="true">下一页</span>
+						  </a>
+						</li>
+						<li id="lil">
+						  <a href="javascript:void(0);" id="al" aria-label="Next">
+							<span aria-hidden="true">尾页</span>
+						  </a>
+						</li>
+						
+					</ul>
+				</center>
+				
+	
+	<!-- jQuery -->
+	<script type="text/javascript" src="person/js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="person/js/bootstrap.min.js"></script>
+	<script src="myPage.js" type="text/javascript"></script>
+	
+	<script>		
+		
+		$(document).ready(function()
+		{
+			//获取草稿			
+			var blogList = getListJson(); //这里是调用下面获取数据的函数，如果这里没有获取到数据，页面会自动隐藏，请注意，详看mypage文件中代码。
+			init(blogList,5,6);
+			addListen();
+		});		
+		
+		//显示刷新草稿内容-----注意，这里是我自己的程序片中拼接的内容，大家只需要更改for循环里面的就可以了，然后就是显示目标的位置。
+		function refresh(_thisPage, _list, _n)
+		{
+			var thisPage = _thisPage;
+			var blogList = _list;
+			var n = _n;
+			var begin = n * (thisPage - 1) + 1;//起始索引
+			var htmlShow = "";//存放拼接的html
+			for(var i = begin; i <= (begin + n - 1); i ++)
+			{
+				if(i > blogList.length) break;//超出总数的话退出
+				
+				//这里要注意，i的下标要减1，它是从0开始的
+				//拼接html显示片段
+				htmlShow += "<tr class='error'> <td>"
+				+ blogList[i-1].title
+				+ "</td> <td>"
+				+ new Date(blogList[i-1].time).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')//处理日期和时间中带T的问题
+				+ "</td> <td>"
+				+ "<a href='EditBlogAction?blog_id=" + blogList[i-1].id + "'>编辑</a> | "
+				+ "<a href='javascript:void(0);' onclick='delDraft(" + blogList[i-1].id + ")'>删除</a>"
+				+ "</td> </tr>";
+								
+			}
+			$("#draftHtml").html(htmlShow);	//这里是显示目标的位置，在HTML代码中我已经去掉了此目的标签，大家需要加上。
+		
+		}
+		
+		//根据条件获取草稿list（json格式的list集合）//这里是从后台获取json数据的代码。需要大家修改。
+		function getListJson()
+		{
+			var blogList = [];
+			var isOnline;
+			var params = 
+			{
+				
+			};
+			//获取后台数据
+			$.ajax
+			({
+				async: false,//取消异步
+			    type: "POST",
+			    url: "GetDraftListJsonAction",
+			    data: params,
+			    dataType:"json", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
+			    success: function(json)
+			    {
+			    	isOnline = json.isOnline;
+			    	blogList = json.blogList;
+			    },
+			    error: function(XMLHttpRequest, textStatus, errorThrown) 
+			    {
+			    	 alert(XMLHttpRequest.status);
+			    	 alert(XMLHttpRequest.readyState);
+			    	 alert(textStatus);
+			    }
+		  	});
+			
+			
+			return blogList;
+		}
+		
+		
+	</script>
+	
+</body>
+</html>
