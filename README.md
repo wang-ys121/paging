@@ -1,11 +1,11 @@
 # Paging 分页
 
-`yongsener` `page`  `分页`
+`wonyoungsen` `page`  `分页`
 
 ## 说明
 
 > 本分页代码使用了JS，jQuery，ajax，分页实现的代码已经放在了myPage.js文件里面，但是需要在分页页面中加上具体显示的控件，示例文件中含有，但是示例还不能使用，需要大家完善ajax获取后台数据的代码，这里返回的数据时json格式，需要明白json数据的封装，其次就是显示的那部分代码要会自己拼接所显示的内容，完善对应方法。效果如图：
-![](https://raw.githubusercontent.com/wang-ys121/paging/master/page1.png)
+![](https://raw.githubusercontent.com/wonyoungsen/paging/master/page1.png)
 
 
 
